@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GREEN-API Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: auto 1fr; /* Левая колонка занимает столько места, сколько нужно, правая — оставшееся */
+            gap: 20px; /* Минимальное расстояние между колонками */
+            align-items: start; /* Выравнивание по верхнему краю */
+        }
+        .input-section {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        input {
+            padding: 10px;
+            margin: 5px;
+            max-width: 200px; /* Максимальная ширина 100px */
+            font-size: 16px;
+        }
+        #messageText {
+            min-height: 60px; /* Минимальная высота 60px */
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+            max-width: 200px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            height: fit-content;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>GREEN-API Example</h1>
+    <div class="container">
+        <!-- Левая колонка: поля ввода и кнопки -->
+        <div class="input-section">
+            <input type="text" id="idInstance" placeholder="Введите idInstance">
+
+            <input type="text" id="apiTokenInstance" placeholder="Введите apiTokenInstance">
+
+            <button onclick="getSettings()">getSettings</button>
+            <button onclick="getStateInstance()">getStateInstance</button>
+
+            <input type="text" id="phoneNumber" placeholder="Введите номер телефона">
+
+            <input type="text" id="messageText" placeholder="Введите текст сообщения">
+
+            <button onclick="sendMessage()">sendMessage</button>
+
+            <input type="text" id="filePhoneNumber" placeholder="Введите номер телефона">
+
+            <input type="text" id="fileUrl" placeholder="Ссылка на изображение">
+
+            
+            
+            
+            <button onclick="sendFileByUrl()">sendFileByUrl</button>
+        </div>
+
+        <!-- Правая колонка: поле ответа -->
+        <div>
+            <h2>Response:</h2>
+            <pre id="response"></pre>
+        </div>
+    </div>
+
+    <script>
+        const apiUrl = 'https://1103.api.green-api.com';
+
+        async function fetchData(endpoint, method = 'GET', body = null) {
+            const idInstance = document.getElementById('idInstance').value;
+            const apiTokenInstance = document.getElementById('apiTokenInstance').value;
+
+            if (!idInstance || !apiTokenInstance) {
+                alert('Пожалуйста, заполните оба поля: idInstance и apiTokenInstance.');
+                return;
+            }
+
+            const url = `${apiUrl}/waInstance${idInstance}/${endpoint}/${apiTokenInstance}`;
+            try {
+                const options = {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                };
+                if (body) {
+                    options.body = JSON.stringify(body);
+                }
+
+                const response = await fetch(url, options);
+                const data = await response.json();
+                document.getElementById('response').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('response').textContent = 'Error: ' + error.message;
+            }
+        }
+
+        function getSettings() {
+            fetchData('getSettings');
+        }
+
+        function getStateInstance() {
+            fetchData('getStateInstance');
+        }
+
+        function sendMessage() {
+            const phoneNumber = document.getElementById('phoneNumber').value;
+            const messageText = document.getElementById('messageText').value;
+
+            if (!phoneNumber || !messageText) {
+                alert('Пожалуйста, заполните номер телефона и текст сообщения.');
+                return;
+            }
+
+            const body = {
+                chatId: `${phoneNumber}@c.us`,
+                message: messageText
+            };
+
+            fetchData('sendMessage', 'POST', body);
+        }
+
+        function sendFileByUrl() {
+            const filePhoneNumber = document.getElementById('filePhoneNumber').value;
+            const fileUrl = document.getElementById('fileUrl').value;
+
+            if (!filePhoneNumber || !fileUrl) {
+                alert('Пожалуйста, заполните номер телефона и ссылку на изображение.');
+                return;
+            }
+
+            const body = {
+                chatId: `${filePhoneNumber}@c.us`,
+                urlFile: fileUrl,
+                fileName: 'image.jpg' // Имя файла (можно изменить)
+            };
+
+            fetchData('sendFileByUrl', 'POST', body);
+        }
+    </script>
+</body>
+</html>
