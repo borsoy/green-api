@@ -21,7 +21,7 @@
             gap: 10px;
         }
         input {
-            padding: 10px;
+            padding: 5px;
             margin: 5px;
             max-width: 200px; 
             font-size: 16px;
@@ -48,20 +48,20 @@
 <body>
     <h1>GREEN-API Example</h1>
     <div class="container">
-        
+        <!-- Левая колонка: поля ввода и кнопки -->
         <div class="input-section">
             <input type="text" id="idInstance" placeholder="Введите idInstance">
 
             <input type="password" id="apiTokenInstance" placeholder="Введите apiTokenInstance">
 
             <button onclick="getSettings()">getSettings</button>
-            <button onclick="getStateInstance()">getStateInstance</button>
+            <button onclick="getStateInstance()">getStateInstance</button><br>
 
             <input type="text" id="phoneNumber" placeholder="Введите номер телефона">
 
             <input type="text" id="messageText" placeholder="Введите текст сообщения">
 
-            <button onclick="sendMessage()">sendMessage</button>
+            <button onclick="sendMessage()">sendMessage</button><br>
 
             <input type="text" id="filePhoneNumber" placeholder="Введите номер телефона">
 
@@ -73,9 +73,9 @@
             <button onclick="sendFileByUrl()">sendFileByUrl</button>
         </div>
 
-        
+        <!-- Правая колонка: поле ответа -->
         <div>
-            <h2>Response:</h2>
+            <h3>Ответ:</h3>
             <pre id="response"></pre>
         </div>
     </div>
