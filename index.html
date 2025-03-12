@@ -11,9 +11,9 @@
         }
         .container {
             display: grid;
-            grid-template-columns: auto 1fr; /* Левая колонка занимает столько места, сколько нужно, правая — оставшееся */
-            gap: 20px; /* Минимальное расстояние между колонками */
-            align-items: start; /* Выравнивание по верхнему краю */
+            grid-template-columns: auto 1fr; 
+            gap: 20px; 
+            align-items: start; 
         }
         .input-section {
             display: flex;
@@ -23,11 +23,11 @@
         input {
             padding: 10px;
             margin: 5px;
-            max-width: 200px; /* Максимальная ширина 100px */
+            max-width: 200px; 
             font-size: 16px;
         }
         #messageText {
-            min-height: 60px; /* Минимальная высота 60px */
+            min-height: 60px; 
         }
         button {
             padding: 10px 20px;
@@ -48,7 +48,7 @@
 <body>
     <h1>GREEN-API Example</h1>
     <div class="container">
-        <!-- Левая колонка: поля ввода и кнопки -->
+        
         <div class="input-section">
             <input type="text" id="idInstance" placeholder="Введите idInstance">
 
@@ -73,7 +73,7 @@
             <button onclick="sendFileByUrl()">sendFileByUrl</button>
         </div>
 
-        <!-- Правая колонка: поле ответа -->
+        
         <div>
             <h2>Response:</h2>
             <pre id="response"></pre>
